@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains the  implementation of the evaluation method for KBP end-to-end systems.
+This repository contains the implementation of the evaluation method for KBP end-to-end systems.
 
 A script for the evaluation of custom methods on the DWIE dataset is also provided.
 
@@ -26,17 +26,17 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
   </tr>
   <tr>
     <th scope="row">Elrond</th>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
+    <td>82.0</td>
+    <td>74.8</td>
+    <td>80.0</td>
+    <td>70.2</td>
   </tr>
   <tr>
     <th scope="row">Elrond+Merit</th>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
+    <td>82.5</td>
+    <td>75.0</td>
+    <td>81.1</td>
+    <td>71.1</td>
   </tr>
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
