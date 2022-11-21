@@ -2,7 +2,10 @@
 
 ## Introduction
 
-This repository contains a script implementing the evaluation method for KBP end-to-end systems.
+This repository contains the  implementation of the evaluation method for KBP end-to-end systems.
+
+A script for the evaluation of custom methods on the DWIE dataset is also provided.
+
 
 ## Leaderboard
 <div align="center">
@@ -39,3 +42,7 @@ This repository contains a script implementing the evaluation method for KBP end
     <caption align="center"> Scores on the DWIE dataset</caption>
 </div>
 Please contact us to share your results !
+
+## References
+
+Link to the source DWIE dataset : https://github.com/klimzaporojets/DWIE
