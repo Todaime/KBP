@@ -5,9 +5,8 @@
 This repository contains a script implementing the evaluation method for KBP end-to-end systems.
 
 ## Leaderboard
-<div style="text-align: center;">
+<div align="center">
 <table>
-  <caption> Scores on the DWIE dataset</caption>
   <col>
   <colgroup span="2"></colgroup>
   <colgroup span="2"></colgroup>
@@ -37,5 +36,6 @@ This repository contains a script implementing the evaluation method for KBP end
     <td>N/A</td>
   </tr>
 </table>
+    <caption align="center"> Scores on the DWIE dataset</caption>
 </div>
 Please contact us to share your results !
