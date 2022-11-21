@@ -40,14 +40,17 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
 </div>
-Please contact us so that we can add your results!
+
+If you are interested in the KBP task, do not hesitate to contact us so that we can share your results on the leaderboard or to discuss any idea you might have to build the optimal KBP system!
 
 ## How to use the benchmarker
-1. First you will need to download our version of the DWIE dataset through this link , unzip it in the "data/dataset/dwie" directory.
-2. You will need to produce with your model a base corresponding to each step of each sequence of the evaluation process. The sequences of text are saved in the "data/dataset/dwie/sequences_for_evaluation.pickle" file.
-3. Run the evaluate_system.py.
+Here is how to proceed to directly evaluate your solution on the DWIE dataset with our benchmarker.
+
+- You can find a sequence file `data/dataset/dwie/sequences_for_evaluation.pickle` that gives the order in which to process the texts in the test set to build the database for ten different orderings.
+- After every step of each sequence, you need to produce a file that represents the Knowledge Base built from the information in the previous texts. In Warm-start setting, an initial KB is supplied. Each KB file must be named by its position in the sequence and stored in a folder with the name of the sequence number.
+- A KB file should be structured as follows:
 
 
 ## References
 
-Link to the source DWIE dataset : https://github.com/klimzaporojets/DWIE
+- Link to the source DWIE dataset : https://github.com/klimzaporojets/DWIE
