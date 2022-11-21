@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# Custom files
+data/DWIE/groundtruth/cold_start/*
