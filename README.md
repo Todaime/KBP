@@ -2,10 +2,9 @@
 
 ## Introduction
 
-This repository contains the implementation of the evaluation method for KBP end-to-end systems.
+This repository contains the implementation of the evaluation method for end-to-end Knowledge Base Population (KBP) systems.
 
 A script for the evaluation of custom methods on the DWIE dataset is also provided.
-
 
 ## Leaderboard
 <div align="center">
