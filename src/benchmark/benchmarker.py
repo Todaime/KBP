@@ -56,8 +56,7 @@ class Benchmarker:
         Returns:
             float: The micro F1-score
         """
-
-        tt_true_positive = sum([metrics["TP"] for (_, _, metrics) in pairs])
+        tt_true_positive = sum(metrics["TP"] for (_, _, metrics) in pairs)
         init_elems = (
             0
             if self.init_kb is None
@@ -65,8 +64,7 @@ class Benchmarker:
                 sum(
                     len(self.init_kb[init_ent]["attributes"])
                     + len(self.init_kb[init_ent]["relations"])
-                    for init_ent, _, _ in pairs
-                    if init_ent in self.init_kb
+                    for init_ent in self.init_kb.keys()
                 )
             )
         )
@@ -74,12 +72,7 @@ class Benchmarker:
             sum(
                 len(ref_entities[ref_ent]["relations"])
                 + len(ref_entities[ref_ent]["attributes"])
-                for ref_ent, _, _ in pairs
-            )
-            + sum(
-                len(ref_entities[ref_ent]["relations"])
-                + len(ref_entities[ref_ent]["attributes"])
-                for ref_ent in unused_refs
+                for ref_ent in ref_entities
             )
             - init_elems
         )
@@ -87,12 +80,7 @@ class Benchmarker:
             sum(
                 len(built_entities[built_ent]["relations"])
                 + len(built_entities[built_ent]["attributes"])
-                for _, built_ent, _ in pairs
-            )
-            + sum(
-                len(built_entities[built_ent]["relations"])
-                + len(built_entities[built_ent]["attributes"])
-                for built_ent in unused_builts
+                for built_ent in built_entities
             )
             - init_elems
         )
@@ -139,6 +127,9 @@ class Benchmarker:
                             len(ents_ref[ent_ref]["attributes"])
                             == len(ents_built[ent_built]["attributes"])
                             == len(self.init_kb[ent_ref]["attributes"])
+                            and len(ents_ref[ent_ref]["relations"])
+                            == len(ents_built[ent_built]["relations"])
+                            == len(self.init_kb[ent_ref]["relations"])
                         ):
                             matched_ents.append((ent_ref, ent_built, pair_metrics))
 
@@ -330,7 +321,7 @@ class Benchmarker:
                         self.test_size,
                         result,
                     )
-                    print(result["F1_micro"])
+                    print(result["F1_micro"], result["F1_macro"])
                     scores[0][i].append(result["F1_micro"])
                     scores[1][i].append(result["F1_macro"])
                 else:

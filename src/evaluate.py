@@ -143,7 +143,7 @@ def save_scores(scores: list[list[float]], results: dict):
     with open(
         os.path.join(
             path_results,
-            ["run_name"] + "_" + "fn.csv",
+            params["run_name"] + "_" + "fn.csv",
         ),
         "w",
         encoding="utf-8",

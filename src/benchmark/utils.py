@@ -4,7 +4,7 @@ import copy
 import pickle
 
 
-def load_kbs(ref_path: str, built_path: str) -> tuple[dict, dict]:
+def load_kbs(path_ref: str, path_built: str) -> tuple[dict, dict]:
     """Load the model and built kb.
 
     Args:
@@ -14,10 +14,10 @@ def load_kbs(ref_path: str, built_path: str) -> tuple[dict, dict]:
     Returns:
         tuple[dict, dict]: loaded KBs
     """
-    with open(ref_path, "rb") as ref_file:
+    with open(path_ref, "rb") as ref_file:
         ref_kb = pickle.load(ref_file)
 
-    with open(built_path, "rb") as built_file:
+    with open(path_built, "rb") as built_file:
         built_kb = pickle.load(built_file)
     return ref_kb, built_kb
 
@@ -116,7 +116,7 @@ def get_entity_pair_f1(ent_a: dict, ent_b: dict, nb_elems_init=0) -> dict[str, f
     tp_elems = tp_attr + tp_rel
     fn_elems = fn_attr + fn_rel
     fp_elems = fp_attr + fp_rel
-    true_positive = max(0, len(tp_elems) - nb_elems_init)
+    true_positive = len(tp_elems) - nb_elems_init
     recall = (
         0
         if len(ent_a["relations"]) + len(ent_a["attributes"]) - nb_elems_init == 0
