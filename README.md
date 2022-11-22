@@ -48,7 +48,17 @@ Here is how to proceed to directly evaluate your solution on the DWIE dataset wi
 
 - You can find a sequence file `data/dataset/dwie/sequences_for_evaluation.pickle` that gives the order in which to process the texts in the test set to build the database for ten different orderings.
 - After every step of each sequence, you need to produce a file that represents the Knowledge Base built from the information in the previous texts. In Warm-start setting, an initial KB is supplied. Each KB file must be named by its position in the sequence and stored in a folder with the name of the sequence number.
-- A KB file should be structured as follows:
+- A KB file is a pickle file storing a nested dictionnary :
+
+```
+{
+    "texts": {filename: list[URI of entities extracted in the text]},
+    "entities": {
+        "relations": [(predicate, (mentions of the object in the file), filename)],
+        "attributes": [("type", type_tag, filename) or ("mention", mention, filename)]
+        }
+}
+```
 
 
 ## References
