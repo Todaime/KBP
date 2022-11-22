@@ -51,7 +51,7 @@ def get_matching_rels(rels_a: list, rels_b: list):
     """
     common_rels = []
     unmatched_b = []
-    unmatched_a = copy.deepcopy(rels_a)
+    unmatched_a = list(copy.deepcopy(rels_a))
     for rel_b in rels_b:
         exists = False
         rel_b_pred = rel_b[0]
@@ -70,7 +70,7 @@ def get_matching_rels(rels_a: list, rels_b: list):
         if not exists:
             unmatched_b.append(rel_b)
 
-    return common_rels, list(unmatched_a), unmatched_b
+    return common_rels, unmatched_a, unmatched_b
 
 
 def get_matching_attrs(attrs_a: list, attrs_b: list):
@@ -85,14 +85,14 @@ def get_matching_attrs(attrs_a: list, attrs_b: list):
     """
     tp_attr = []
     fp_attr = []
-    attrs_a_copy = copy.deepcopy(attrs_a)
+    attrs_a_copy = list(copy.deepcopy(attrs_a))
     for attr_b in attrs_b:
         if attr_b in attrs_a_copy:
             tp_attr.append(attr_b)
             attrs_a_copy.remove(attr_b)
         else:
             fp_attr.append(tuple(attr_b))
-    return tp_attr, list(attrs_a_copy), fp_attr
+    return tp_attr, attrs_a_copy, fp_attr
 
 
 def get_entity_pair_f1(ent_a: dict, ent_b: dict, nb_elems_init=0) -> dict[str, float]:

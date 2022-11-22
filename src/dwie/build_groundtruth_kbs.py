@@ -135,12 +135,12 @@ def add_tags_to_entities(
                         entities_info[concept["concept"]]["tags"] = set()
                         break
                     entities_info[concept["concept"]]["tags"].add(
-                        ("tag", tag_type, value, filename)
+                        ("type", value, filename)
                     )
                 elif tag_type == "slot" and value == "interviewee":
                     entities_info[concept["concept"]]["tags"].update(
-                        ("tag", "type", "entity", filename),
-                        ("tag", "type", "person", filename),
+                        ("type", "entity", filename),
+                        ("type", "person", filename),
                     )
 
 

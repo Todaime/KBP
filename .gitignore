@@ -130,4 +130,6 @@ dmypy.json
 
 
 # Custom files
-data/DWIE/groundtruth/cold_start/*
+
+data/DWIE/groundtruth/*
+data/DWIE/init_kb.pickle
