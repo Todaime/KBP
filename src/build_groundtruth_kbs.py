@@ -12,7 +12,7 @@ from collections import defaultdict
 from copy import deepcopy
 from tqdm import tqdm
 
-from data import (
+from dwie.data import (
     PATH_DWIE,
     PATH_DWIE_DATA,
     PATH_DWIE_GROUNDTRUTH_KBS,

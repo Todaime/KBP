@@ -132,7 +132,7 @@ dmypy.json
 # Custom files
 
 data/DWIE/groundtruth/*
-data/DWIE/benchmark/input/warm_start/*
+data/DWIE/benchmark/input/*
 data/DWIE/init_kb.pickle
 *.csv
 *.pt

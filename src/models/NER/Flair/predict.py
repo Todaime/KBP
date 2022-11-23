@@ -9,11 +9,11 @@ import json
 from flair.data import Sentence
 from flair.models import SequenceTagger
 
-from dwie.data import (
-    PATH_DWIE_DATA,
-    PATH_DWIE_TEST_FILES,
-    PATH_DWIE_NER_FLAIR_TEST,
-    PATH_DWIE_NER_FLAIR_MODEL,
+PATH_DWIE_DATA = "data/DWIE/annotated_texts"
+PATH_DWIE_TEST_FILES = "data/DWIE/test_files.pickle"
+PATH_DWIE_NER_FLAIR_TEST = "data/DWIE/NER/Flair/predictions"
+PATH_DWIE_NER_FLAIR_MODEL = (
+    "data/models/NER/Flair/taggers/sota-ner-flair/final-model.pt"
 )
 
 
@@ -50,7 +50,7 @@ def predict(model_path, output_path):
             for ent in sents.get_spans("ner")
         ]
         with open(
-            os.path.join(output_path, "cold", filename[:-4] + "pickle"),
+            os.path.join(output_path, filename[:-4] + "pickle"),
             "wb",
         ) as res_file:
             pickle.dump(

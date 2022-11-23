@@ -3,7 +3,7 @@
 import os
 import pickle
 
-import builder
+from builders import builder
 from dwie.data import PATH_DWIE_NER_FLAIR_TEST, DWIE_NER_ONTOLOGY
 
 FILTERED_ELEMENTS = []
@@ -12,7 +12,7 @@ FILTERED_ELEMENTS = []
 class NerBuilder(builder.Builder):
     """Builder with only a NER module"""
 
-    def is_filtered(selt, ent):
+    def is_filtered(self, ent):
         """Filter some errors."""
         return (
             len([True for elem_to_filter in FILTERED_ELEMENTS if elem_to_filter in ent])
@@ -50,15 +50,16 @@ class NerBuilder(builder.Builder):
             if (
                 ner_entity["label"] is not None
                 and ner_entity["text"] not in ents
-                and self.is_filtered(ner_entity["text"])
+                and not self.is_filtered(ner_entity["text"])
             ):
+
                 for entity_type in DWIE_NER_ONTOLOGY[ner_entity["label"]]:
                     attrs.add(("type", entity_type, filename))
                 ents.append(ner_entity["text"])
                 name = ner_entity["text"] + "_" + filename
                 ents_in_text.append(name)
                 built_kb["entities"][name]["attributes"].update(set(attrs))
-                built_kb["entities"][name]["attributes"].append(
+                built_kb["entities"][name]["attributes"].add(
                     (
                         "mention",
                         ner_entity["text"].replace(" - ", "-").replace(" 's ", "'s "),

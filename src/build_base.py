@@ -10,10 +10,11 @@ import logging
 import argparse
 import pickle
 from tqdm import tqdm
-from data import PATH_DWIE, PATH_DWIE_BENCHMARK, PATH_DWIE_DATA
+from dwie.data import PATH_DWIE, PATH_DWIE_BENCHMARK, PATH_DWIE_DATA
+from build_groundtruth_kbs import extract_entities_info
 
 from builders.ner_builder import NerBuilder
-from build_groundtruth_kbs import extract_entities_info
+
 
 DEFAULT_PATH_DWIE_SEQUENCE = PATH_DWIE + "sequences10.pickle"
 BUILDERS_WITH_RESET = []
