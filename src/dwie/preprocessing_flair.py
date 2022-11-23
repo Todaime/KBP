@@ -9,38 +9,12 @@ import pickle
 import spacy
 
 from tqdm import tqdm
-import sys
-import inspect
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(os.path.dirname(currentdir))
-sys.path.insert(0, parentdir)
-from data import (
-    DWIE_NER_TYPES,
-    DWIE_NER_ONTOLOGY,
-    PATH_DWIE_DATA,
-    PATH_DWIE_NER_FLAIR,
-    UNWANTED_ENT_TYPES,
-    UNWANTED_TAG_TYPES,
-)
 
 
-def get_fine_grained_type(types: list[str]) -> str:
-    """_summary_
+from data import DWIE_NER_TYPES, PATH_DWIE_DATA, PATH_DWIE_NER_FLAIR, UNWANTED_ENT_TYPES
 
-    Args:
-        types (list[str]): _description_
-
-    Returns:
-        str: _description_
-    """
-    selected_type, degree = None, 0
-    for ent_type in types:
-        if ent_type in UNWANTED_ENT_TYPES:
-            return None
-        if ent_type in TYPES_FOR_NER and degree <= TYPES_FOR_NER[ent_type][0]:
-            (degree, selected_type) = TYPES_FOR_NER[ent_type]
-    return selected_type
+SENTENCE_END_CHAR = [".", '"', "?", "!"]
+SENTENCE_NER_END_CHAR = [". O", '" O', "? O", "! O"]
 
 
 def get_concepts_types(concepts: list) -> dict:
@@ -52,103 +26,82 @@ def get_concepts_types(concepts: list) -> dict:
     Returns:
         dict: types for each concepts
     """
-    ner_types = DWIE_NER_ONTOLOGY.keys()
     concepts_types = {}
     for concept in concepts:
-        tags = []
+        selected_tag = None
         if concept["tags"] is not None:
             for tag in concept["tags"]:
                 tag_type, value = tag.split("::")
                 if tag_type == "type":
                     if value in UNWANTED_ENT_TYPES:
-                        tags = []
+                        selected_tag = None
                         break
-                    tags.append(value)
-        if len(tags) > 0:
-            tag_ontology = DWIE_NER_ONTOLOGY[tags[0]]
-            selected_tag = tags[0]
+                    if value in DWIE_NER_TYPES and (
+                        selected_tag is None
+                        or DWIE_NER_TYPES[value] > DWIE_NER_TYPES[selected_tag]
+                    ):
+                        selected_tag = value
 
-            for tag in tags:
-                if tag not in tag_ontology:
-                    if selected_tag in DWIE_NER_ONTOLOGY[tag]:
-                        selected_tag = tag
-                        tag_ontology = DWIE_NER_ONTOLOGY[tag]
-                    else:
-                        print(
-                            DWIE_NER_ONTOLOGY[tag],
-                            DWIE_NER_ONTOLOGY[selected_tag],
-                            tags,
-                            concept["text"],
-                        )
-        # concepts_types[concept["concept"]] = get_fine_grained_type(
-        #    [tag.split("::")[1] for tag in concept["tags"] if "type::" in tag]
-        # )
+        if selected_tag is not None:
+            concepts_types[concept["concept"]] = selected_tag
     return concepts_types
 
 
-def is_included_in_other_span(spans: tuple[int, int, str], i: int) -> bool:
-    """_summary_
+def is_in_other_span(spans: tuple, i: int) -> bool:
+    """Check if a span is included in another.
 
     Args:
-        spans (tuple[int, int, str]): _description_
-        i (int): _description_
+        spans (tuple): begin, end char position and type
+        i (int): index of the span to check
 
     Returns:
-        bool: _description_
+        bool: wheter the span is included in another
     """
     (begin, end, _) = spans[i]
     length = end - begin
-    for j, (other_begin, other_end, _) in enumerate(spans):
-        other_length = other_end - other_begin
-        if (
-            i != j
-            and length < other_length
-            and other_begin <= begin <= end <= other_end
-        ):
+    for j, (s_begin, s_end, _) in enumerate(spans):
+        s_length = s_end - s_begin
+        if i != j and length < s_length and s_begin <= begin <= end <= s_end:
             return True
     return False
 
 
-def get_ents_from_mentions(doc, mentions, type_of_concepts):
-    """_summary_
+def get_spans(doc, mentions, concept_types):
+    """Filter the spans.
 
     Args:
-        doc (_type_): _description_
-        mentions (_type_): _description_
-        type_of_concepts (_type_): _description_
+        doc (Spacy.doc): a Spacy document
+        mentions (list): annotated mentions
+        type_of_concepts (dict): concepts with their type
 
     Returns:
-        _type_: _description_
+        list: filtered spans
     """
     spans = []
 
     for mention in mentions:
-        m_type = type_of_concepts[mention["concept"]]
-        if m_type is not None:
+        if mention["concept"] in concept_types:
+            m_type = concept_types[mention["concept"]]
             m_begin, m_end = mention["begin"], mention["end"]
             char_span = doc.char_span(m_begin, m_end, m_type)
-            if char_span is None:
-                larger_char_span = doc.char_span(m_begin, m_end + 1, m_type)
-                if larger_char_span is not None:
-                    spans.append((m_begin, m_end + 1, m_type))
-            else:
+            if char_span is not None:
                 spans.append((m_begin, m_end, m_type))
 
     return [
-        doc.char_span(b, e, t)
-        for i, (b, e, t) in enumerate(spans)
-        if not is_included_in_other_span(spans, i)
+        doc.char_span(begin, end, tag)
+        for i, (begin, end, tag) in enumerate(spans)
+        if not is_in_other_span(spans, i)
     ]
 
 
 def get_spacy_docs(path_dwie: str) -> dict:
-    """Transform raw texts to sentences.
+    """Transform raw texts to annotated sentences.
 
     Args:
         path_dwie (str): path to the DWIE annotated data
 
     Returns:
-        dict: _description_
+        docs in the train set, docs in the test set
     """
     nlp = spacy.load("en_core_web_sm")
     spacy_train = []
@@ -156,26 +109,28 @@ def get_spacy_docs(path_dwie: str) -> dict:
     for filename in tqdm(os.listdir(path_dwie)):
         with open(os.path.join(path_dwie, filename), encoding="utf-8") as dwie_file:
             data = json.load(dwie_file)
-            doc = nlp(data["content"])
+        doc = nlp(data["content"])
 
-            spacy_test.append((doc, filename))
+        type_of_concepts = get_concepts_types(data["concepts"])
+        spans = get_spans(doc, data["mentions"], type_of_concepts)
+        if len(spans) > 0:
+            doc.set_ents(spans)
 
-            type_of_concepts = get_concepts_types(data["concepts"])
-            #   ents = get_ents_from_mentions(doc, data["mentions"], type_of_concepts)
-            # if len(ents) > 0:
-            #     doc.set_ents(ents)
-            #     spacy_docs[data["tags"][1]].append(doc)
+        if data["tags"][1] == "train":
+            spacy_train.append(doc)
+        else:
+            spacy_test.append(doc)
     return spacy_train, spacy_test
 
 
-def spacy_token_to_flair(token) -> str:
-    """_summary_
+def spacy_to_flair_token(token) -> str:
+    """Format spacy tokens to flair.
 
     Args:
-        token (_type_): _description_
+        token ): a spacy token
 
     Returns:
-        str: _description_
+        str: formated flair token
     """
     line = token.text
     if line != "\n":
@@ -186,56 +141,55 @@ def spacy_token_to_flair(token) -> str:
     return ""
 
 
-def flair_sent_from_spacy(sent) -> list[str]:
-    """_summary_
-
+def spacy_to_flair_sent(sent) -> list:
+    """Translate a spacy sentence to a flair one.
     Args:
-        sent (_type_): _description_
+        sent (_type_): Spacy sentence.
 
     Returns:
-        list[str]: _description_
+        list[str]:list of flair token
     """
-    return [spacy_token_to_flair(token) for token in sent] + [""]
+    return [spacy_to_flair_token(token) for token in sent] + [""]
 
 
-def flair_doc_from_spacy(doc) -> list[str]:
-    """_summary_
+def spacy_to_flair_doc(doc) -> list:
+    """Transform spacy doc to flair format
 
     Args:
-        doc (_type_): _description_
+        doc: a spacy document
 
     Returns:
-        list[str]: _description_
+        list: list of flair token
     """
     sents = []
     for sent in doc.sents:
-        sents += flair_sent_from_spacy(sent)
+        sents += spacy_to_flair_sent(sent)
     return sents
 
 
-def flair_from_spacy(docs: list) -> list[str]:
-    """_summary_
+def spacy_to_flair(docs: list) -> list[str]:
+    """Transform spacy documents to comply with flair format.
 
     Args:
-        docs (list): _description_
+        docs (list): list fo spacy documents
 
     Returns:
-        list[str]: _description_
+        list[str]: flair dataset
     """
     dataset = []
     for doc in tqdm(docs):
-        dataset += flair_doc_from_spacy(doc)
+        dataset += spacy_to_flair_doc(doc)
     return dataset
 
 
-def clean_spaces(data: list[str]) -> list[str]:
-    """_summary_
+def clean_spaces(data: list) -> list:
+    """Remove unnecessary tokens
 
     Args:
-        data (list[str]): _description_
+        data (list[str]): Flair dataset
 
     Returns:
-        list[str]: _description_
+        list[str]: Cleaned Flair dataset
     """
     cleaned_data = []
     for i in range(0, len(data) - 1):
@@ -247,107 +201,38 @@ def clean_spaces(data: list[str]) -> list[str]:
     return cleaned_data
 
 
-def create_flair_datasets(spacy_docs: dict[list]) -> dict[list[str]]:
-    """_summary_
+def get_data(spacy_docs, dataset):
+    """Process training data.
 
     Args:
-        spacy_docs (dict[list]): _description_
-
-    Returns:
-        dict[list[str]]: _description_
+        spacy_docs (list): list of spacy document
+        dataset (str): type of dataset
     """
-    return {
-        "train": clean_spaces(flair_from_spacy(spacy_docs["train"])),
-        "test": clean_spaces(flair_from_spacy(spacy_docs["test"])),
-    }
 
-
-def save_flair_datasets(flair_datasets: dict[list[str]], path_flair: str):
-    """_summary_
-
-    Args:
-        flair_datasets (dict[list[str]]): _description_
-        path_flair (str): _description_
-    """
-    if not os.path.exists(path_flair):
-        os.makedirs(path_flair)
+    flair_datasets = clean_spaces(spacy_to_flair(spacy_docs))
     with open(
-        os.path.join(path_flair, "train.txt"), mode="w", encoding="utf-8"
+        os.path.join(params["output_path"], dataset + ".txt"),
+        mode="w",
+        encoding="utf-8",
     ) as flair_file:
-        for token in flair_datasets["train"]:
+        for token in flair_datasets:
             flair_file.write(token + "\n")
-    with open(
-        os.path.join(path_flair, "test.txt"), mode="w", encoding="utf-8"
-    ) as flair_file:
-        for token in flair_datasets["test"]:
-            flair_file.write(token + "\n")
-
-
-def get_data_for_train(spacy_docs):
-    """_summary_
-
-    Args:
-        spacy_docs (_type_): _description_
-    """
-    flair_datasets = create_flair_datasets(spacy_docs)
-    save_flair_datasets(flair_datasets, params["output_path"])
-
-
-def get_doc_for_inference(doc):
-    """_summary_
-
-    Args:
-        doc (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    document = []
-    for sent in doc.sents:
-        document += [token.text.replace("\n", "") for token in sent] + [""]
-
-    cleaned_doc = []
-    for i in range(0, len(document) - 1):
-        if not document[i] == document[i + 1] == "":
-            cleaned_doc.append(document[i])
-            if (not document[i] in [".", "?", "!", '"']) and document[i + 1] == "":
-                cleaned_doc.append(".")
-    cleaned_doc.append(document[-1])
-    print(get_doc_for_inference)
-    return cleaned_doc
-
-
-def get_data_for_inference(spacy_docs):
-    """_summary_
-
-    Args:
-        spacy_docs (_type_): _description_
-    """
-    flair_datasets = [
-        (get_doc_for_inference(doc), filename) for (doc, filename) in spacy_docs["test"]
-    ]
-    if not os.path.exists(os.path.join(params["output_path"], "test")):
-        os.makedirs(os.path.join(params["output_path"], "inference"))
-    for (doc, filename) in flair_datasets:
-        pickle.dump(
-            doc,
-            open(
-                os.path.join(
-                    params["output_path"], "inference", filename[:-5] + ".pickle"
-                ),
-                "wb",
-            ),
-        )
 
 
 def main():
     """Preprocess DWIE texts to train a FLAIR NER model."""
-    spacy_docs = get_spacy_docs(params["input_path"])
-    if params["train"]:
-        get_data_for_train(spacy_docs)
+    if not os.path.exists(params["output_path"]):
+        os.makedirs(params["output_path"])
+    if os.path.exists(params["output_path"] + "spacy_docs.pickle"):
+        with open(params["output_path"] + "spacy_docs.pickle", "rb") as spacy_files:
+            train_docs, test_docs = pickle.load(spacy_files)
+
     else:
-        print("inference")
-        get_data_for_inference(spacy_docs)
+        train_docs, test_docs = get_spacy_docs(params["input_path"])
+        with open(params["output_path"] + "spacy_docs.pickle", "wb") as spacy_files:
+            pickle.dump((train_docs, test_docs), spacy_files)
+    get_data(train_docs, "train")
+    get_data(train_docs, "test")
 
 
 if __name__ == "__main__":

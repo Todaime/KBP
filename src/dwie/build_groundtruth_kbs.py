@@ -151,7 +151,11 @@ def add_relations_to_entities(
     """
     for rel in relations:
         subj, pred, obj = rel["s"], rel["p"], rel["o"]
-        if len(ents_info[subj]["mentions"]) > 0 and len(ents_info[obj]["mentions"]) > 0:
+        if (
+            len(ents_info[subj]["mentions"]) > 0
+            and len(ents_info[obj]["tags"]) > 0
+            and len(ents_info[obj]["mentions"]) > 0
+        ):
             ents_info[subj]["relations"].add(
                 (pred, tuple(m[1] for m in ents_info[obj]["mentions"]), filename)
             )
@@ -169,8 +173,8 @@ def extract_entities_info(data: dict[str, list], filename: str):
     """
     entities_info = add_link_to_concept(data["concepts"], filename)
     add_mentions_to_entities(entities_info, data["mentions"], filename)
-    add_relations_to_entities(entities_info, data["relations"], filename)
     add_tags_to_entities(entities_info, data["concepts"], filename)
+    add_relations_to_entities(entities_info, data["relations"], filename)
     return entities_info
 
 

@@ -9,6 +9,14 @@ PATH_DWIE_INIT_KB = PATH_DWIE + "init_kb.pickle"
 PATH_DWIE_NER_FLAIR = PATH_DWIE + "NER/Flair/"
 PATH_DWIE_TEST_FILES = PATH_DWIE + "test_files.pickle"
 
+PATH_DWIE_NER_FLAIR_MODEL = (
+    PATH_DWIE_NER_FLAIR + "taggers/sota-ner-flair/final-model.pt"
+)
+PATH_DWIE_NER_FLAIR_TEST = PATH_DWIE_NER_FLAIR + "predictions"
+
+PATH_FLAIR_DATA = "data/models/NER/Flair/"
+PATH_FLAIR_CHECKPOINT = PATH_FLAIR_DATA + "checkpoint.pt"
+PATH_FLAIR_BASE_MODEL = PATH_FLAIR_DATA + "taggers/sota-ner-flair"
 
 UNWANTED_ENT_TYPES = [
     "footer",
@@ -18,6 +26,8 @@ UNWANTED_ENT_TYPES = [
     "money",
     "value",
     "role",
+    "religion",
+    "religion-x",
 ]
 
 UNWANTED_TAG_TYPES = [
@@ -32,6 +42,61 @@ UNWANTED_TAG_TYPES = [
     "policy",
 ]
 
+
+DWIE_NER_TYPES = {
+    "entity": 0,
+    "language": 1,
+    "location": 1,
+    "waterbody": 2,
+    "regio": 2,
+    "facility": 2,
+    "gpe": 2,
+    "gpe0": 3,
+    "gpe2": 3,
+    "gpe1": 3,
+    "organization": 1,
+    "education_org": 2,
+    "ngo": 2,
+    "media": 2,
+    "igo": 2,
+    "so": 3,
+    "party": 2,
+    "company": 2,
+    "sport_team": 2,
+    "governmental_organisation": 2,
+    "agency": 3,
+    "armed_movement": 2,
+    "person": 1,
+    "deity": 2,
+    "activist": 2,
+    "journalist": 2,
+    "gov_per": 2,
+    "employee": 2,
+    "politician": 2,
+    "head_of_state": 3,
+    "head_of_gov": 3,
+    "minister": 3,
+    "sport_player": 2,
+    "artist": 2,
+    "politics_per": 2,
+    "manager": 2,
+    "offender": 2,
+    "misc": 1,
+    "treaty": 2,
+    "object": 2,
+    "work_of_art": 2,
+    "event": 1,
+    "war": 2,
+    "competition": 2,
+    "sport_competition": 3,
+    "ethnicity": 1,
+    "other": 0,
+    "loc-x": 1,
+    "gpe0-x": 1,
+    "gpe1-x": 1,
+}
+
+DWIE_NER_ONTOLOGY = {}
 """
 DWIE_NER_TYPES = {
     "entity",
@@ -41,7 +106,7 @@ DWIE_NER_TYPES = {
     "misc",
     "organization",
     "armed_movement",
-    "music_bad",
+    "music_band",
     "other",
     "sport_org",
     "sport_player",
