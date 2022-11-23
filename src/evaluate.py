@@ -69,7 +69,8 @@ def draw_figure(
         os.path.join(
             params["path_output"],
             params["mode"],
-            params["run_name"] + ".png",
+            params["run_name"],
+            "figure.png",
         )
     )
 
@@ -95,12 +96,17 @@ def save_scores(scores: list[list[float]], results: dict):
         scores (list[list[float]]): Evaluation scores at each step for each sequence
         results (dict): Results of the last sequence for error analysis
     """
-    os.makedirs(os.path.join(params["path_output"], params["mode"]), exist_ok=True)
+    os.makedirs(
+        os.path.join(params["path_output"], params["mode"], params["run_name"]),
+        exist_ok=True,
+    )
 
     mean_macro, mean_micro, std_macro, std_micro = get_final_scores(scores)
     draw_figure(mean_micro, mean_macro, std_micro, std_macro)
 
-    path_results = os.path.join(params["path_output"], params["mode"])
+    path_results = os.path.join(
+        params["path_output"], params["mode"], params["run_name"]
+    )
     with open(
         os.path.join(path_results, "metrics.csv"),
         "a",
@@ -112,7 +118,7 @@ def save_scores(scores: list[list[float]], results: dict):
     with open(
         os.path.join(
             path_results,
-            params["run_name"] + "_" + "error_pairs.csv",
+            "error_pairs.csv",
         ),
         "w",
         encoding="utf-8",
@@ -122,7 +128,7 @@ def save_scores(scores: list[list[float]], results: dict):
     with open(
         os.path.join(
             path_results,
-            params["run_name"] + "_" + "good_pairs.csv",
+            "good_pairs.csv",
         ),
         "w",
         encoding="utf-8",
@@ -133,7 +139,7 @@ def save_scores(scores: list[list[float]], results: dict):
     with open(
         os.path.join(
             path_results,
-            params["run_name"] + "_" + "fp.csv",
+            "fp.csv",
         ),
         "w",
         encoding="utf-8",
@@ -143,7 +149,7 @@ def save_scores(scores: list[list[float]], results: dict):
     with open(
         os.path.join(
             path_results,
-            params["run_name"] + "_" + "fn.csv",
+            "fn.csv",
         ),
         "w",
         encoding="utf-8",
