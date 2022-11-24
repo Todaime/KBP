@@ -137,3 +137,5 @@ data/DWIE/init_kb.pickle
 *.csv
 *.pt
 data/DWIE/NER/*
+*.log
+/KBP/data/DWIE/COREF/*

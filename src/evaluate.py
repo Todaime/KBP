@@ -104,11 +104,10 @@ def save_scores(scores: list[list[float]], results: dict):
     mean_macro, mean_micro, std_macro, std_micro = get_final_scores(scores)
     draw_figure(mean_micro, mean_macro, std_micro, std_macro)
 
-    path_results = os.path.join(
-        params["path_output"], params["mode"], params["run_name"]
-    )
+    path_metrics = os.path.join(params["path_output"], params["mode"])
+    path_results = os.path.join(path_metrics, params["run_name"])
     with open(
-        os.path.join(path_results, "metrics.csv"),
+        os.path.join(path_metrics, "metrics.csv"),
         "a",
         encoding="utf-8",
     ) as file:

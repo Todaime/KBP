@@ -13,7 +13,7 @@ from tqdm import tqdm
 from dwie.data import PATH_DWIE, PATH_DWIE_BENCHMARK, PATH_DWIE_DATA
 from build_groundtruth_kbs import extract_entities_info
 
-from builders.ner_builder import NerBuilder
+from builders import NerBuilder, NerCorefBuilder
 
 
 DEFAULT_PATH_DWIE_SEQUENCE = PATH_DWIE + "sequences10.pickle"
@@ -29,6 +29,8 @@ def load_builder(builder_name):
     """Looad the required builder to build the KB."""
     if builder_name == "NER":
         return NerBuilder()
+    if builder_name == "NERCoref":
+        return NerCorefBuilder()
     print("Oups wrong builder")
     return None
 

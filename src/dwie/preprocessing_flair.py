@@ -11,9 +11,14 @@ import spacy
 from tqdm import tqdm
 
 
-from data import DWIE_NER_TYPES, PATH_DWIE_DATA, PATH_DWIE_NER_FLAIR, UNWANTED_ENT_TYPES
+from data import (
+    DWIE_NER_TYPES,
+    PATH_DWIE_DATA,
+    PATH_DWIE_NER_FLAIR,
+    UNWANTED_ENT_TYPES,
+    SENTENCE_END_CHAR,
+)
 
-SENTENCE_END_CHAR = [".", '"', "?", "!"]
 SENTENCE_NER_END_CHAR = [". O", '" O', "? O", "! O"]
 
 

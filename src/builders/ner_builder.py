@@ -12,13 +12,6 @@ FILTERED_ELEMENTS = []
 class NerBuilder(builder.Builder):
     """Builder with only a NER module"""
 
-    def is_filtered(self, ent):
-        """Filter some errors."""
-        return (
-            len([True for elem_to_filter in FILTERED_ELEMENTS if elem_to_filter in ent])
-            > 0
-        )
-
     def get_ner_predictions(self, filename: str):
         """_summary_
         Args:
@@ -37,7 +30,7 @@ class NerBuilder(builder.Builder):
         return ner_predictions
 
     def build_kb(self, built_kb, filename):
-        """Populate the KB from informations in the text.
+        """Populate the KB with information extracted from the text.
         Args:
             built_kb : KB to populate
             filename : file of the text to integrate
@@ -47,11 +40,7 @@ class NerBuilder(builder.Builder):
         ents = []
         for ner_entity in ner_entities:
             attrs = set()
-            if (
-                ner_entity["label"] is not None
-                and ner_entity["text"] not in ents
-                and not self.is_filtered(ner_entity["text"])
-            ):
+            if ner_entity["label"] is not None and ner_entity["text"] not in ents:
 
                 for entity_type in DWIE_NER_ONTOLOGY[ner_entity["label"]]:
                     attrs.add(("type", entity_type, filename))
