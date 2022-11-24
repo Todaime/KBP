@@ -6,17 +6,11 @@ import argparse
 import os
 import json
 import pickle
-from numpy import int16
 import spacy
 from tqdm import tqdm
 
 from preprocessing_flair import get_concepts_types, is_in_other_span
-from data import (
-    PATH_DWIE_DATA,
-    PATH_DWIE_RE_ATLOP,
-    SENTENCE_END_CHAR,
-    UNWANTED_ENT_TYPES,
-)
+from data import PATH_DWIE_DATA, PATH_DWIE_RE_ATLOP, SENTENCE_END_CHAR
 
 PATH_SPACY_DOCS = os.path.join(PATH_DWIE_RE_ATLOP, "spacy_docs.pickle")
 
@@ -75,11 +69,11 @@ def get_spacy_docs(path_dwie: str) -> dict[str, list]:
     return spacy_docs
 
 
-def get_mentions_indexes(tagged_mentions) -> list:
+def get_mentions_indexes(tagged_mentions: list) -> list:
     """Return the offsets of each mentions.
 
     Args:
-        tagged_mentions (_type_): _description_
+        tagged_mentions (list): _description_
 
     Returns:
         list: mentions spans

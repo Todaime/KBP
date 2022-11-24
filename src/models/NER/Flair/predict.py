@@ -16,6 +16,8 @@ PATH_DWIE_NER_FLAIR_MODEL = (
     "data/models/NER/Flair/taggers/sota-ner-flair/final-model.pt"
 )
 
+SENTENCE_END_CHAR = [".", '"', "?", "!"]
+
 
 def predict(model_path, output_path):
     """Predict NER tags on the DWIE test set.
@@ -37,6 +39,10 @@ def predict(model_path, output_path):
             os.path.join(PATH_DWIE_DATA, filename), encoding="UTF-8"
         ) as dwie_file:
             data = json.load(dwie_file)["content"]
+
+        for ind in [i for i, ltr in enumerate(data) if ltr == "\n"]:
+            if data[ind - 1] not in SENTENCE_END_CHAR:
+                data = data[:ind] + ". " + data[ind + 1 :]
 
         sents = Sentence(data)
         model.predict(sents)
