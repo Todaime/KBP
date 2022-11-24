@@ -8,12 +8,14 @@ PATH_DWIE_COREF_WL_PREDICTIONS = PATH_DWIE + "COREF/WL"
 PATH_DWIE_DATA = PATH_DWIE + "annotated_texts"
 PATH_DWIE_GROUNDTRUTH_KBS = PATH_DWIE + "groundtruth"
 PATH_DWIE_INIT_KB = PATH_DWIE + "init_kb.pickle"
+
 PATH_DWIE_NER_FLAIR = PATH_DWIE + "NER/Flair/"
-PATH_DWIE_TEST_FILES = PATH_DWIE + "test_files.pickle"
 PATH_DWIE_NER_FLAIR_MODEL = (
     PATH_DWIE_NER_FLAIR + "taggers/sota-ner-flair/final-model.pt"
 )
 PATH_DWIE_NER_FLAIR_TEST = PATH_DWIE_NER_FLAIR + "predictions"
+PATH_DWIE_RE_ATLOP = PATH_DWIE + "RE/ATLOP"
+PATH_DWIE_TEST_FILES = PATH_DWIE + "test_files.pickle"
 
 PATH_FLAIR_DATA = "data/models/NER/Flair/"
 PATH_FLAIR_CHECKPOINT = PATH_FLAIR_DATA + "checkpoint.pt"
