@@ -27,15 +27,15 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
     <th scope="row">Elrond+Merit</th>
     <td>83.7</td>
     <td>76.2</td>
-    <td>81.1</td>
-    <td>71.1</td>
+    <td>82.5</td>
+    <td>73.4</td>
   </tr>
   <tr>
     <th scope="row">Elrond</th>
     <td>83.2</td>
     <td>76.0</td>
-    <td>80.0</td>
-    <td>70.2</td>
+    <td>81.4</td>
+    <td>72.3</td>
   </tr>
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
