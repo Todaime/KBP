@@ -73,3 +73,4 @@ Here is how to proceed to directly evaluate your solution on the DWIE dataset wi
 - Source DWIE dataset : https://github.com/klimzaporojets/DWIE
 - Repository of FLAIR frameworl : https://github.com/flairNLP/flair
 - Repository of the Word-level coreference model : https://github.com/vdobrovolskii/wl-coref
+- Repository of ATLOP : https://github.com/wzhouad/ATLOP
