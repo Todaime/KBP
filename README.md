@@ -41,8 +41,8 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
     <th scope="row">DWIE</th>
     <td>82.8</td>
     <td>75.6</td>
-    <td>N/A</td>
-    <td>N/A</td>
+    <td>80.3</td>
+    <td>70.0</td>
   </tr>
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
