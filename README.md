@@ -37,6 +37,13 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
     <td>81.4</td>
     <td>72.3</td>
   </tr>
+  <tr>
+    <th scope="row">DWIE</th>
+    <td>82.8</td>
+    <td>75.6</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
 </div>
