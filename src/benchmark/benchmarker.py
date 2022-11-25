@@ -188,8 +188,6 @@ class Benchmarker:
                     for ent in built_entities["texts"][text_ref]
                 }
                 for candidate in candidates:
-                    if len(built_entities["entities"][candidate]["attributes"]) == 0:
-                        print(built_entities["entities"][candidate])
                     if self.init_kb is None or candidate not in self.init_kb:
                         pair_metrics = get_entity_pair_f1(
                             ref_info, built_entities["entities"][candidate]
@@ -272,11 +270,13 @@ class Benchmarker:
         Returns:
             dict: metrics and their value
         """
+
         ref_kb, built_kb = load_kbs(path_ref, path_build)
         for e in built_kb["entities"]:
             if len(list(built_kb["entities"][e]["attributes"])) == 0:
                 print(e)
         pairs, false_negative, false_positive = self.perform_matching(ref_kb, built_kb)
+
         error_pairs_logs, good_pairs_logs = self.get_logs_for_pairs(pairs)
         fn_logs = self.get_logs_for_ents(false_negative, ref_kb)
         fp_logs = self.get_logs_for_ents(false_positive, built_kb["entities"])

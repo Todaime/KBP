@@ -112,7 +112,6 @@ def get_entity_pair_f1(ent_a: dict, ent_b: dict, nb_elems_init=0) -> dict[str, f
     tp_attr, fn_attr, fp_attr = get_matching_attrs(
         set(ent_a["attributes"]), set(ent_b["attributes"])
     )
-
     tp_elems = tp_attr + tp_rel
     fn_elems = fn_attr + fn_rel
     fp_elems = fp_attr + fp_rel

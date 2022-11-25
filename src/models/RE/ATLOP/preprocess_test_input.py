@@ -7,11 +7,11 @@ import json
 import pickle
 from tqdm import tqdm
 
-PATH_DWIE_RE_ATLOP = "data/DWIE/RE/ATLOP"
+PATH_DWIE_RE_ATLOP = "data/DWIE/RE/ATLOP/test"
 PATH_DWIE_DATA = "data/DWIE/annotated_texts"
 PATH_DWIE_NER_FLAIR_TEST = "data/DWIE/NER/Flair/predictions"
 PATH_DWIE_COREF_WL_PREDICTIONS = "data/DWIE/COREF/WL"
-SENTENCE_END_CHAR = [".", '"', "?", "!"]
+SENTENCE_END_CHAR = [".", "?", "!"]
 
 PRONOUNS = [
     "they",
@@ -95,7 +95,7 @@ DWIE_NER_ONTOLOGY = {
 }
 
 
-def construct_sents(text) -> list:
+def construct_sents(text, filename) -> list:
     """Split the text into sentences.
 
     Args:
@@ -104,6 +104,8 @@ def construct_sents(text) -> list:
     Returns:
         list: list of document sentences
     """
+    if "DW_39564901." in filename:
+        print(text)
     sents = []
     cur_sent = []
     for i, word in enumerate(text):
@@ -119,10 +121,7 @@ def construct_sents(text) -> list:
     return sents
 
 
-def map_ent(
-    sents: list,
-    ent: dict,
-) -> dict:
+def map_ent(sents: list, ent: dict) -> dict:
     """Map an entity to sentences and indexes.
 
     Args:
@@ -136,7 +135,6 @@ def map_ent(
     tok_counter = 1
     for i, sent in enumerate(sents):
         for j in range(len(sent)):
-            if ent["idx"][0] == tok_counter:
                 return {
                     "name": ent["text"],
                     "type": ent["label"],
@@ -316,8 +314,7 @@ def build_vertex_set(mentions, corefs):
 
     vertex_set = [[mentions[i] for i in it] for k, it in cluster_to_text_ents.items()]
     entity_type = {
-        i: cluster_to_type[k][1]
-        for i, (k, it) in enumerate(cluster_to_text_ents.items())
+        i: cluster_to_type[k] for i, (k, it) in enumerate(cluster_to_text_ents.items())
     }
     return vertex_set, entity_type
 
@@ -336,7 +333,7 @@ def pre_process_file(filename):
         "rb",
     ) as ner_f:
         ner_ents, text = pickle.load(ner_f)
-    sents = construct_sents(text)
+    sents = construct_sents(text, filename)
     mapped_doc = map_doc_to_sent_indexes(ner_ents, sents)
     corefs = get_corefs(filename)
     vertex_set, entity_type = build_vertex_set(mapped_doc, corefs)

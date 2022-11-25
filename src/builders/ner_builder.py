@@ -13,11 +13,11 @@ class NerBuilder(builder.Builder):
     """Builder with only a NER module"""
 
     def get_ner_predictions(self, filename: str):
-        """_summary_
+        """Load NER predictions
         Args:
-            filename (_type_): _description_
+            filename (str): name of the file to loaod
         Returns:
-            _type_: _description_
+            list: ner predictions
         """
         with open(
             os.path.join(
