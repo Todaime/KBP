@@ -2,7 +2,7 @@
 
 # Path
 PATH_DWIE = "data/DWIE/"
-PATH_DWIE_BENCHMARK = PATH_DWIE + "benchmark/"
+PATH_DWIE_BENCHMARK = PATH_DWIE + "benchmark/output"
 PATH_DWIE_COREF_WL = PATH_DWIE + "COREF/WL/dwie_data.json"
 PATH_DWIE_COREF_WL_PREDICTIONS = PATH_DWIE + "COREF/WL"
 PATH_DWIE_DATA = PATH_DWIE + "annotated_texts"
@@ -120,6 +120,7 @@ DWIE_NER_TYPES = {
     "gpe1-x": 1,
 }
 
+DWIE_UNLINKABLE_TYPES = ["gpe1-x", "gpe0-x", "loc-x"]
 DWIE_NER_ONTOLOGY = {
     "entity": ["entity"],
     "language": ["language", "entity"],

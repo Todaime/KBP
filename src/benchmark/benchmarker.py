@@ -274,7 +274,7 @@ class Benchmarker:
         ref_kb, built_kb = load_kbs(path_ref, path_build)
         for e in built_kb["entities"]:
             if len(list(built_kb["entities"][e]["attributes"])) == 0:
-                print(e)
+                print(e, built_kb["entities"][e])
         pairs, false_negative, false_positive = self.perform_matching(ref_kb, built_kb)
 
         error_pairs_logs, good_pairs_logs = self.get_logs_for_pairs(pairs)
