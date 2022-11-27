@@ -25,17 +25,24 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
   </tr>
     <tr>
     <th scope="row">Elrond+Merit</th>
+    <td>83.7</td>
+    <td>76.2</td>
     <td>82.5</td>
-    <td>75.0</td>
-    <td>81.1</td>
-    <td>71.1</td>
+    <td>73.4</td>
   </tr>
   <tr>
     <th scope="row">Elrond</th>
-    <td>82.0</td>
-    <td>74.8</td>
-    <td>80.0</td>
-    <td>70.2</td>
+    <td>83.2</td>
+    <td>76.0</td>
+    <td>81.4</td>
+    <td>72.3</td>
+  </tr>
+  <tr>
+    <th scope="row">DWIE</th>
+    <td>82.8</td>
+    <td>75.6</td>
+    <td>80.3</td>
+    <td>70.0</td>
   </tr>
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
@@ -64,5 +71,6 @@ Here is how to proceed to directly evaluate your solution on the DWIE dataset wi
 ## References
 
 - Source DWIE dataset : https://github.com/klimzaporojets/DWIE
-- Repository of FLAIR frameworl : https://github.com/flairNLP/flair
+- Repository of FLAIR framework : https://github.com/flairNLP/flair
 - Repository of the Word-level coreference model : https://github.com/vdobrovolskii/wl-coref
+- Repository of ATLOP : https://github.com/wzhouad/ATLOP
