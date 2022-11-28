@@ -54,18 +54,34 @@ def draw_figure(
 
     fig, axis = plt.subplots(2, 1, constrained_layout=True)
     x_coords = list(range(0, params["test_size"], params["steps"]))
-    axis[0].plot(x_coords, f1_micro)
+    axis[0].plot(x_coords, [i * 100 for i in f1_micro])
     axis[0].fill_between(
-        x_coords, f1_micro - std_micro, f1_micro + std_micro, alpha=0.3
+        x_coords,
+        [i * 100 for i in f1_micro] - 100 * std_micro,
+        [i * 100 for i in f1_micro] + std_micro * 100,
+        alpha=0.3,
     )
-    axis[1].plot(x_coords, f1_macro)
+    axis[1].plot(x_coords, [i * 100 for i in f1_macro])
     axis[1].fill_between(
-        x_coords, f1_macro - std_macro, f1_macro + std_macro, alpha=0.3
+        x_coords,
+        [i * 100 for i in f1_macro] - 100 * std_macro,
+        [i * 100 for i in f1_macro] + std_macro * 100,
+        alpha=0.3,
     )
+
+    axis[0].text(
+        100 - 8, f1_micro[-1] * 100 + 1, round(f1_micro[-1] * 100, 1), fontdict=None
+    )
+    axis[1].text(
+        100 - 8, f1_macro[-1] * 100 + 1, round(f1_macro[-1] * 100, 1), fontdict=None
+    )
+
     axis[0].set_xlabel("Nb texts")
     axis[1].set_xlabel("Nb texts")
     axis[1].set_title("F1-macro")
     axis[0].set_title("F1-micro")
+    axis[0].margins(0)
+    axis[1].margins(0)
     fig.savefig(
         os.path.join(
             params["path_output"],
