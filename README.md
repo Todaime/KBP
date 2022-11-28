@@ -27,8 +27,8 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
     <th scope="row">Elrond+Merit</th>
     <td>83.5</td>
     <td>76.2</td>
-    <td>82.5</td>
-    <td>73.4</td>
+    <td>82.0</td>
+    <td>72.1</td>
   </tr>
   <tr>
     <th scope="row">Elrond</th>
