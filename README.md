@@ -4,8 +4,6 @@
 
 This repository contains the implementation of the evaluation method for end-to-end Knowledge Base Population (KBP) systems.
 
-A script for the evaluation of custom methods on the DWIE dataset is also provided.
-
 ## Leaderboard
 <div align="center">
 <table>
@@ -25,24 +23,24 @@ A script for the evaluation of custom methods on the DWIE dataset is also provid
   </tr>
     <tr>
     <th scope="row">Elrond+Merit</th>
-    <td>83.7</td>
-    <td>76.2</td>
-    <td>82.5</td>
-    <td>73.4</td>
+    <td><b>83.5</b></td>
+    <td><b>76.2</b></td>
+    <td><b>82.0</b></td>
+    <td><b>72.1</b></td>
   </tr>
   <tr>
     <th scope="row">Elrond</th>
     <td>83.2</td>
     <td>76.0</td>
     <td>81.4</td>
-    <td>72.3</td>
+    <td><b>72.1</b></td>
   </tr>
   <tr>
     <th scope="row">DWIE</th>
     <td>82.8</td>
     <td>75.6</td>
     <td>80.3</td>
-    <td>70.0</td>
+    <td>69.9</td>
   </tr>
 </table>
     <caption align="center"> Scores on the DWIE dataset</caption>
@@ -55,7 +53,7 @@ Here is how to proceed to directly evaluate your solution on the DWIE dataset wi
 
 - You can find a sequence file `data/dataset/dwie/sequences_for_evaluation.pickle` that gives the order in which to process the texts in the test set to build the database for ten different orderings.
 - After every step of each sequence, you need to produce a file that represents the Knowledge Base built from the information in the previous texts. In Warm-start setting, an initial KB is supplied. Each KB file must be named by its position in the sequence and stored in a folder with the name of the sequence number.
-- A KB file must be a pickle file storing a nested dictionnary and structured as follows :
+- A KB must be saved in a pickle file and structured as follows :
 
 ```
 {
