@@ -19,6 +19,7 @@ def load_kbs(path_ref: str, path_built: str) -> tuple[dict, dict]:
 
     with open(path_built, "rb") as built_file:
         built_kb = pickle.load(built_file)
+
     return ref_kb, built_kb
 
 

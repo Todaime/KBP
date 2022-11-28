@@ -2,12 +2,17 @@
 
 # Path
 PATH_DWIE = "data/DWIE/"
-PATH_DWIE_BENCHMARK = PATH_DWIE + "benchmark/output"
+PATH_DWIE_BENCHMARK = PATH_DWIE + "benchmark"
 PATH_DWIE_COREF_WL = PATH_DWIE + "COREF/WL/dwie_data.json"
 PATH_DWIE_COREF_WL_PREDICTIONS = PATH_DWIE + "COREF/WL"
 PATH_DWIE_DATA = PATH_DWIE + "annotated_texts"
 PATH_DWIE_GROUNDTRUTH_KBS = PATH_DWIE + "groundtruth"
 PATH_DWIE_INIT_KB = PATH_DWIE + "init_kb.pickle"
+
+PATH_DWIE_LINK_MERIT = "data/models/LINK/MERIT/"
+PATH_DWIE_LINK_MERIT_CLASSIFIER = "data/models/LINK/MERIT/weights/classifier_dwie.pt"
+PATH_DWIE_LINK_MERIT_PREDS = "data/DWIE/LINK/MERIT/predictions"
+PATH_DWIE_LINK_WARM_CONTENT = PATH_DWIE_LINK_MERIT + "warm_content.pickle"
 
 PATH_DWIE_NER_FLAIR = PATH_DWIE + "NER/Flair/"
 PATH_DWIE_NER_FLAIR_MODEL = (
@@ -21,6 +26,7 @@ PATH_DWIE_TEST_FILES = PATH_DWIE + "test_files.pickle"
 PATH_FLAIR_DATA = "data/models/NER/Flair/"
 PATH_FLAIR_CHECKPOINT = PATH_FLAIR_DATA + "checkpoint.pt"
 PATH_FLAIR_BASE_MODEL = PATH_FLAIR_DATA + "taggers/sota-ner-flair"
+
 
 SENTENCE_END_CHAR = [".", '"', "?", "!"]
 

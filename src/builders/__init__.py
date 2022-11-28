@@ -5,6 +5,7 @@ from .ner_builder import NerBuilder
 from .ner_coref_re_builder import NerCorefREBuilder
 from .baseline import BaselineBuilder
 from .dwie_builder import DWIEBuilder
+from .elrond_builder import ElrondBuilder
 
 __all__ = [
     "NerBuilder",
@@ -12,4 +13,5 @@ __all__ = [
     "NerCorefREBuilder",
     "BaselineBuilder",
     "DWIEBuilder",
+    "ElrondBuilder",
 ]

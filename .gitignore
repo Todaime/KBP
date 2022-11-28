@@ -140,3 +140,6 @@ data/DWIE/NER/*
 *.log
 data/DWIE/COREF/*
 data/DWIE/RE/*
+*.Out
+data/models/LINK/*
+data/DWIE/LINK/*

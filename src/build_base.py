@@ -19,11 +19,12 @@ from builders import (
     NerCorefREBuilder,
     BaselineBuilder,
     DWIEBuilder,
+    ElrondBuilder,
 )
 
 
 DEFAULT_PATH_DWIE_SEQUENCE = PATH_DWIE + "sequences10.pickle"
-BUILDERS_WITH_RESET = []
+BUILDERS_WITH_RESET = ["ELROND"]
 
 
 def new_entity():
@@ -43,6 +44,8 @@ def load_builder(builder_name):
         return BaselineBuilder()
     if builder_name == "DWIE":
         return DWIEBuilder()
+    if builder_name == "ELROND":
+        return ElrondBuilder(mode=params["mode"])
     print("Oups wrong builder")
     return None
 

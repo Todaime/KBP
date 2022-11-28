@@ -29,6 +29,7 @@ DEFAULT_STEP = 2
 PATH_BENCHMARK = PATH_DWIE_BENCHMARK
 PATH_INIT_KB = "data/DWIE/groundtruth"
 PATH_INPUT = PATH_BENCHMARK + "/input"
+PATH_OUTPUT = PATH_BENCHMARK + "/output"
 
 
 def new_entity():
@@ -202,7 +203,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o",
         "--path_output",
-        default=PATH_DWIE_BENCHMARK,
+        default=PATH_OUTPUT,
         help="Path where system score are written",
     )
     parser.add_argument(
