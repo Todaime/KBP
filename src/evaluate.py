@@ -70,10 +70,16 @@ def draw_figure(
     )
 
     axis[0].text(
-        100 - 8, f1_micro[-1] * 100 + 1, round(f1_micro[-1] * 100, 1), fontdict=None
+        100 - 8,
+        f1_micro[-1] * 100 + 1,
+        "{0:.{1}f}".format(f1_micro[-1] * 100, 1),
+        fontdict=None,
     )
     axis[1].text(
-        100 - 8, f1_macro[-1] * 100 + 1, round(f1_macro[-1] * 100, 1), fontdict=None
+        100 - 8,
+        f1_macro[-1] * 100 + 1,
+        "{0:.{1}f}".format(f1_macro[-1] * 100, 1),
+        fontdict=None,
     )
 
     axis[0].set_xlabel("Nb texts")
