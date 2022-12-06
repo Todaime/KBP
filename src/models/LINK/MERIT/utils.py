@@ -69,8 +69,7 @@ def load_tokenizer(tokenizer_name):
 
 def load_model(config, tokenizer, init, device):
     """Load the dual encoder."""
-    if config["encoder_name"] == "Albert":
-        core_encoder = AutoModel.from_pretrained("albert-base-v2")
+    core_encoder = AutoModel.from_pretrained("albert-base-v2")
     core_encoder.resize_token_embeddings(len(tokenizer))
     model = DualEncoder(core_encoder, "dots" in config)
     if not init:
