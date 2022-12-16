@@ -24,7 +24,7 @@ This repository contains the implementation of the evaluation method for end-to-
     <tr>
     <th scope="row">Elrond+Merit</th>
     <td><b>83.5</b></td>
-    <td><b>76.2</b></td>
+    <td><b>76.3</b></td>
     <td><b>82.0</b></td>
     <td><b>72.1</b></td>
   </tr>
