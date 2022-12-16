@@ -30,8 +30,8 @@ This repository contains the implementation of the evaluation method for end-to-
   </tr>
   <tr>
     <th scope="row">Elrond</th>
-    <td>83.2</td>
-    <td>76.0</td>
+    <td>83.4</td>
+    <td>76.1</td>
     <td>81.4</td>
     <td><b>72.1</b></td>
   </tr>
