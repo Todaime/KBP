@@ -109,7 +109,7 @@ def get_spacy_docs(path_dwie: str) -> dict:
         with open(os.path.join(path_dwie, filename), encoding="utf-8") as dwie_file:
             data = json.load(dwie_file)
         doc = nlp(data["content"])
-
+        print(doc.sents)
         type_of_concepts = get_concepts_types(data["concepts"])
         spans = get_spans(doc, data["mentions"], type_of_concepts)
         if len(spans) > 0:

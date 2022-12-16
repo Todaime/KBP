@@ -104,8 +104,6 @@ def construct_sents(text, filename) -> list:
     Returns:
         list: list of document sentences
     """
-    if "DW_39564901." in filename:
-        print(text)
     sents = []
     cur_sent = []
     for i, word in enumerate(text):
@@ -135,6 +133,7 @@ def map_ent(sents: list, ent: dict) -> dict:
     tok_counter = 1
     for i, sent in enumerate(sents):
         for j in range(len(sent)):
+            if ent["idx"][0] == tok_counter:
                 return {
                     "name": ent["text"],
                     "type": ent["label"],
