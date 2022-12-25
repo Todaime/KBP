@@ -10,7 +10,6 @@ from train import report
 from model import DocREModel
 from prepro import read_dwie
 from transformers import AutoConfig, AutoModel, AutoTokenizer
-from apex import amp
 
 
 PATH_DWIE_RE_ATLOP_PREDS = "data/DWIE/RE/ATLOP/predictions"
@@ -26,8 +25,8 @@ def main():
         exist_ok=True,
     )
 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    params.n_gpu = torch.cuda.device_count()
+    device = torch.device("cpu")  # "cuda:0" if torch.cuda.is_available() else "cpu")
+    params.n_gpu = -1  # torch.cuda.device_count()
     params.device = device
 
     config = AutoConfig.from_pretrained(
@@ -48,9 +47,8 @@ def main():
     config.transformer_type = "bert"
 
     model = DocREModel(config, model, num_labels=params.num_labels)
-    model.to(0)
-    model = amp.initialize(model, opt_level="O1", verbosity=0)
-    model.load_state_dict(torch.load(params.load_path))
+    model.to(device)
+    model.load_state_dict(torch.load(params.load_path, map_location=device))
     for filename in os.listdir(PATH_DWIE_RE_ATLOP):
         test_features = read_dwie(
             os.path.join(PATH_DWIE_RE_ATLOP, filename),

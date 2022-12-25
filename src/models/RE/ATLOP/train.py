@@ -3,7 +3,6 @@ import os
 
 import numpy as np
 import torch
-from apex import amp
 import ujson as json
 from torch.utils.data import DataLoader
 from transformers import AutoConfig, AutoModel, AutoTokenizer
@@ -62,13 +61,10 @@ def train(args, model, train_features, dev_features, test_features):
                 }
                 outputs = model(**inputs)
                 loss = outputs[0] / args.gradient_accumulation_steps
-                with amp.scale_loss(loss, optimizer) as scaled_loss:
-                    scaled_loss.backward()
+                loss.backward()
                 if step % args.gradient_accumulation_steps == 0:
-                    if args.max_grad_norm > 0:
-                        torch.nn.utils.clip_grad_norm_(
-                            amp.master_params(optimizer), args.max_grad_norm
-                        )
+                    torch.nn.utils.clip_grad_norm_(model.parameters())
+
                     optimizer.step()
                     scheduler.step()
                     model.zero_grad()
