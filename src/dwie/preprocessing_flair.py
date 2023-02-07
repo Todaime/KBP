@@ -40,7 +40,6 @@ def get_concepts_types(concepts: list) -> dict:
                         or DWIE_NER_TYPES[value] > DWIE_NER_TYPES[selected_tag]
                     ):
                         selected_tag = value
-
         if selected_tag is not None:
             concepts_types[concept["concept"]] = selected_tag
     return concepts_types
@@ -109,7 +108,6 @@ def get_spacy_docs(path_dwie: str) -> dict:
         with open(os.path.join(path_dwie, filename), encoding="utf-8") as dwie_file:
             data = json.load(dwie_file)
         doc = nlp(data["content"])
-        print(doc.sents)
         type_of_concepts = get_concepts_types(data["concepts"])
         spans = get_spans(doc, data["mentions"], type_of_concepts)
         if len(spans) > 0:
@@ -231,7 +229,7 @@ def main():
         with open(params["output_path"] + "spacy_docs.pickle", "wb") as spacy_files:
             pickle.dump((train_docs, test_docs), spacy_files)
     get_data(train_docs, "train")
-    get_data(train_docs, "test")
+    get_data(test_docs, "test")
 
 
 if __name__ == "__main__":

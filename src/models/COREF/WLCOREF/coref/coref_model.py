@@ -30,7 +30,6 @@ from coref.word_encoder import WordEncoder
 
 class CorefModel:  # pylint: disable=too-many-instance-attributes
     """Combines all coref modules together to find coreferent spans.
-
     Attributes:
         config (coref.config.Config): the model's configuration,
             see config.toml for the details
@@ -38,7 +37,6 @@ class CorefModel:  # pylint: disable=too-many-instance-attributes
         trainable (Dict[str, torch.nn.Module]): trainable submodules with their
             names used as keys
         training (bool): used to toggle train/eval modes
-
     Submodules (in the order of their usage in the pipeline):
         tokenizer (transformers.AutoTokenizer)
         bert (transformers.AutoModel)
@@ -52,7 +50,6 @@ class CorefModel:  # pylint: disable=too-many-instance-attributes
     def __init__(self, config_path: str, section: str, epochs_trained: int = 0):
         """
         A newly created model is set to evaluation mode.
-
         Args:
             config_path (str): the path to the toml file with the configuration
             section (str): the selected section of the config file
@@ -86,11 +83,9 @@ class CorefModel:  # pylint: disable=too-many-instance-attributes
         self, data_split: str = "dev", word_level_conll: bool = False
     ) -> Tuple[float, Tuple[float, float, float]]:
         """Evaluates the modes on the data split provided.
-
         Args:
             data_split (str): one of 'dev'/'test'/'train'
             word_level_conll (bool): if True, outputs conll files on word-level
-
         Returns:
             mean loss
             span-level LEA: f1, precision, recal
@@ -221,10 +216,8 @@ class CorefModel:  # pylint: disable=too-many-instance-attributes
         """
         This is a massive method, but it made sense to me to not split it into
         several ones to let one see the data flow.
-
         Args:
             doc (Doc): a dictionary with the document data.
-
         Returns:
             CorefResult (see const.py)
         """
@@ -506,7 +499,6 @@ class CorefModel:  # pylint: disable=too-many-instance-attributes
             valid_pair_map: boolean tensor of shape [n_words, n_ants],
                 whether for pair at [i, j] (i-th word and j-th word)
                 j < i is True
-
         Returns:
             tensor of shape [n_words, n_ants + 1] (dummy added),
                 containing 1 at position [i, j] if i-th and j-th words corefer.
@@ -565,4 +557,4 @@ class CorefModel:  # pylint: disable=too-many-instance-attributes
                 doc["word_id"] = word_id
                 out.append(doc)
         print("Tokenization OK", flush=True)
-        return out
+        return

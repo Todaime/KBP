@@ -1,0 +1,20 @@
+2023-02-02 16:20:56,550 Reading data from data/DWIE/NER/Flair
+2023-02-02 16:20:56,550 Train: data/DWIE/NER/Flair/train.txt
+2023-02-02 16:20:56,550 Dev: None
+2023-02-02 16:20:56,550 Test: data/DWIE/NER/Flair/test.txt
+Traceback (most recent call last):
+  File "/home/mprieur/KBP/src/models/NER/Flair/train.py", line 104, in <module>
+    main()
+  File "/home/mprieur/KBP/src/models/NER/Flair/train.py", line 83, in main
+    corpus = load_corpus(params["input_path"])
+  File "/home/mprieur/KBP/src/models/NER/Flair/train.py", line 30, in load_corpus
+    corpus: Corpus = ColumnCorpus(
+  File "/home/mprieur/anaconda3/envs/EGC/lib/python3.10/site-packages/flair/datasets/sequence_labeling.py", line 417, in __init__
+    super(ColumnCorpus, self).__init__(
+  File "/home/mprieur/anaconda3/envs/EGC/lib/python3.10/site-packages/flair/datasets/sequence_labeling.py", line 306, in __init__
+    [
+  File "/home/mprieur/anaconda3/envs/EGC/lib/python3.10/site-packages/flair/datasets/sequence_labeling.py", line 307, in <listcomp>
+    ColumnDataset(
+  File "/home/mprieur/anaconda3/envs/EGC/lib/python3.10/site-packages/flair/datasets/sequence_labeling.py", line 467, in __init__
+    assert path_to_column_file.exists()
+AssertionError

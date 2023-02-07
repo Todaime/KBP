@@ -75,8 +75,7 @@ class BaselineBuilder(NerCorefREBuilder):
         return None
 
     def link_ent(self, mentions, ent_types, built_kb):
-        pred = self.link_by_mentions(mentions, ent_types, built_kb)
-        return None if pred is None else pred
+        return pred self.link_by_mentions(mentions, ent_types, built_kb)
 
     def build_kb(self, built_kb, filename):
         """Populate the KB with information extracted from the text.

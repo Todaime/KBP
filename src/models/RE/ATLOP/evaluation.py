@@ -3,7 +3,6 @@ import os
 import os.path
 import json
 import numpy as np
-from pydantic import NoneStrBytes
 
 PATH_DWIE_REL_2_ID = "data/DWIE/RE/ATLOP/rel2id.json"
 rel2id = json.load(open(PATH_DWIE_REL_2_ID, "r", encoding="utf-8"))

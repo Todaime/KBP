@@ -71,6 +71,8 @@ UNWANTED_TAG_TYPES = [
     "sport_event",
     "policy",
 ]
+
+
 DWIE_NER_TYPES = {
     "entity": 0,
     "language": 1,
@@ -198,7 +200,6 @@ DWIE_NER_ONTOLOGY = {
     "gpe1-x": ["gpe1-x", "other"],
     "loc-x": ["loc-x", "other"],
 }
-
 """
 DWIE_NER_TYPES = {
     "entity",

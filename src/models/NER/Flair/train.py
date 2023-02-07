@@ -2,13 +2,14 @@
 
 import argparse
 import logging
+import flair
 from flair.data import Corpus
 from flair.datasets import ColumnCorpus
 from flair.embeddings import TransformerWordEmbeddings
 from flair.models import SequenceTagger
 from flair.trainers import ModelTrainer
 
-from dwie.data import (
+from data import (
     PATH_FLAIR_CHECKPOINT,
     PATH_FLAIR_BASE_MODEL,
     PATH_DWIE_NER_FLAIR,
@@ -60,6 +61,7 @@ def train(corpus, resume):
         use_rnn=False,
         reproject_embeddings=False,
     )
+    tagger.label_dictionary.add_unk = True
 
     # Initialize trainer
     trainer = ModelTrainer(tagger, corpus)
@@ -78,9 +80,18 @@ def train(corpus, resume):
         )
 
 
+def test(corpus):
+    tagger = SequenceTagger.load(
+        "data/models/NER/Flair/taggers/sota-ner-flair/final-model.pt"
+    )
+    tagger.label_dictionary.add_unk = True
+    print(tagger.evaluate(corpus.test, gold_label_type="ner"))
+
+
 def main():
     """Train a FLAIR Ner model."""
     corpus = load_corpus(params["input_path"])
+    # test(corpus)
     train(corpus, params["resume"])
 
 
